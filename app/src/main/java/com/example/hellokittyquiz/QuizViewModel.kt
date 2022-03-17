@@ -7,12 +7,14 @@ class QuizViewModel: ViewModel() {
     var currentIndex = 0
     var currentScore = 0
 
-    private val questionBank = listOf(
+    val questionBank = listOf(
         Question(R.string.kitty1, true),
         Question(R.string.kitty2, false),
         Question(R.string.kitty3, false),
         Question(R.string.kitty4, true)
     )
+
+
 
     val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answer
@@ -28,6 +30,12 @@ class QuizViewModel: ViewModel() {
         set(value){
             questionBank[currentIndex].isCheated = value
         }
+    var userAnswer: Boolean?
+        get() = questionBank[currentIndex].userAnswer
+        set(value){
+            questionBank[currentIndex].userAnswer = value
+        }
+
 
 
     fun moveToNext() {
@@ -43,6 +51,10 @@ class QuizViewModel: ViewModel() {
             if (!question.isAnswered and !question.isCheated) return false
         }
         return true
+    }
+
+    fun updatedBank(): List<Question> {
+        return questionBank
     }
 
 

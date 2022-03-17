@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var cheatButton: Button
 
+    private lateinit var listButton: Button
+
 
     private val TAG = "MainActivity"
 
@@ -55,6 +57,8 @@ class MainActivity : AppCompatActivity() {
 
         cheatButton = findViewById(R.id.cheat_button)
 
+        listButton = findViewById(R.id.list_button)
+
         questionTextView.setOnClickListener {
             if (quizViewModel.allAnswered()){
                 val grade = quizViewModel.currentScore.divideToPercent(4)
@@ -71,12 +75,14 @@ class MainActivity : AppCompatActivity() {
             checkAnswer(true)
             trueButton.setEnabled(!(quizViewModel.currentStatus))
             falseButton.setEnabled(!(quizViewModel.currentStatus))
+            quizViewModel.userAnswer = true
         }
         falseButton.setOnClickListener{
             //post response when click false button
             checkAnswer(false)
             trueButton.setEnabled(!(quizViewModel.currentStatus))
             falseButton.setEnabled(!(quizViewModel.currentStatus))
+            quizViewModel.userAnswer = false
         }
 
 //        nextButton.setOnClickListener {
@@ -114,8 +120,15 @@ class MainActivity : AppCompatActivity() {
 
             startActivityForResult(intent, REQUEST_CODE_CHEAT)
         }
-
         updateQuestion()
+
+        listButton.setOnClickListener {
+            val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("Question_Bank", ArrayList(quizViewModel.questionBank))
+            startActivity(intent)
+            //var intent = Intent(this, ResultActivity::class.java)
+            //startActivity(intent)
+        }
 
     }// end of onCreate
 
